@@ -131,4 +131,4 @@ media/
 notes.txt
 .vscode/
 
-#mpesa_integration/
+mpesa_env/
