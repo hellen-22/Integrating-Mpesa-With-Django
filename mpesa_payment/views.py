@@ -47,30 +47,34 @@ def mpesa_payment(request):
         return render(request, 'mpesa.html')
 
 @csrf_exempt
-def stk_push_callback(request):
-    body_unicode = request.body.decode('utf-8')
-    
+def stk_push_callback(request, *args, **kwargs):
+    if request.method == 'POST':
+        pass
 
-    if body_unicode == '':
-        return HttpResponse('No response')
-       
-    else:
-        body = json.loads(body_unicode)
-        print(body)
-        if body['Body']['stkCallback']['ResultCode'] == 0:
-            payment = TransactionCallbacks(
-                checkout_request_id = body['Body']['stkCallback']['CheckoutRequestID'],
-                merchant_request_id = body['Body']['stkCallback']['MerchantRequestID'],
-                amount = body['Body']['stkCallback']['CallbackMetadata']['Item'][0]["Value"],
-                mpesa_receipt_no = body['Body']['stkCallback']['CallbackMetadata']['Item'][1]["Value"],
-                phone_number = body['Body']['stkCallback']['CallbackMetadata']['Item'][-1]["Value"],
-            )
-            payment.save()
-            messages.success(request, 'Successfully Paid')
-            return HttpResponse(body)  
+    if request.method == 'GET':
+        body_unicode = request.body.decode('utf-8')
+        
+
+        if body_unicode == '':
+            return HttpResponse('No response')
+        
         else:
-            messages.error(request, 'Transaction Declined By User')
-            
+            body = json.loads(body_unicode)
+            print(body)
+            if body['Body']['stkCallback']['ResultCode'] == 0:
+                payment = TransactionCallbacks(
+                    checkout_request_id = body['Body']['stkCallback']['CheckoutRequestID'],
+                    merchant_request_id = body['Body']['stkCallback']['MerchantRequestID'],
+                    amount = body['Body']['stkCallback']['CallbackMetadata']['Item'][0]["Value"],
+                    mpesa_receipt_no = body['Body']['stkCallback']['CallbackMetadata']['Item'][1]["Value"],
+                    phone_number = body['Body']['stkCallback']['CallbackMetadata']['Item'][-1]["Value"],
+                )
+                payment.save()
+                messages.success(request, 'Successfully Paid')
+                return HttpResponse(body)  
+            else:
+                messages.error(request, 'Transaction Declined By User')
+                
     return HttpResponse()
 
 def method_test(request):
