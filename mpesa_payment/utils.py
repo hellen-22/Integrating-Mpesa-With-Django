@@ -135,16 +135,6 @@ class MpesaGateWay:
             
         }
 
-        req_token_header = {
-            "AccessTokenUrl": self.access_token_url,
-            "ConsumerKey": self.consumer_key,
-            "ConsumerSecret": self.consumer_secret
-        }
-
-        auth=HTTPBasicAuth(self.consumer_key, self.consumer_secret)
-
-        print(f'Authenticate: {auth}')
-
         try:
             res = requests.post(self.checkout_url, json=req_data, headers=self.headers, timeout=30)
             response = mpesa_response(res)
