@@ -73,9 +73,7 @@ class MpesaGateWay:
 
     def getAccessToken(self):
         try:
-            res = requests.get(
-                self.access_token_url,auth=HTTPBasicAuth(self.consumer_key, self.consumer_secret),
-            )
+            res = requests.get(self.access_token_url, auth=HTTPBasicAuth(self.consumer_key, self.consumer_secret))
             print(res)
         except Exception as err:
             logging.error("Error {}".format(err))
