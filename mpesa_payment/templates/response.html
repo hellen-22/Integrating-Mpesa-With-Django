@@ -1,0 +1,40 @@
+{% extends 'base.html' %} 
+{% block content %}  
+<div class="main-panel">        
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive pt-3">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Receipt Number</th>
+                      <th>Phone number</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                      <td>{{ transaction.mpesa_receipt_no }}</td>
+                      <td>{{ transaction.phone_number }}</td>
+                      <td>{{ transaction.amount }}</td>
+                      <td>{{ transaction.date }}</td>
+                      <td>{{ transaction.time }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}

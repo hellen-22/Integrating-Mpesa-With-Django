@@ -132,3 +132,7 @@ notes.txt
 .vscode/
 
 mpesa_env/
+staticfiles/
+Include/
+Scripts/
+pyvenv.cfg

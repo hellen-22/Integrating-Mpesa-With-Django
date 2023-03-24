@@ -20,3 +20,13 @@ class TransactionCallbacks(AbstractBaseModel):
 
     def __str__(self) -> str:
         return self.phone_number
+    
+    class Meta:
+        verbose_name = 'Transaction'
+    
+
+class MpesaResponseBody(AbstractBaseModel):
+    body = models.JSONField()
+
+    def __str__(self) -> str:
+        return str(self.body)
