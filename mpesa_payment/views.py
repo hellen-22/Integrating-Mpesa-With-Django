@@ -24,7 +24,7 @@ def mpesa_payment(request):
         amount = int(request.POST['amount'])
         account_reference = 'Ocrat POS Payment'
         transaction_desc = 'Payment'
-        callback_url = ""
+        callback_url = "https://mpesa.ocratsystems.co.ke/callback/"
 
         print(callback_url)
 
@@ -43,9 +43,12 @@ def mpesa_payment(request):
             return redirect('mpesa')
 
         response = cl.stk_push(phone_number=phone_number, amount=amount, account_reference=account_reference, transaction_desc=transaction_desc, callback_url=callback_url)
-        
-        return HttpResponse(response)
 
+
+        if response.status_code == 200:
+            return redirect("success")
+        
+        return redirect("failed")
 
     else:
         return render(request, 'mpesa.html')
@@ -62,6 +65,14 @@ def saving_transactions(request):
     return render(request, 'response.html', context)
 
 
+def successful_redirect(request):
+    return render(request, "success.html")
+
+
+def failed_redirect(request):
+    return render(request, "failed.html")
+
+
 
 class MpesaViewSet(ModelViewSet):
     queryset = MpesaResponseBody.objects.all()
@@ -76,20 +87,20 @@ class MpesaViewSet(ModelViewSet):
         if body:
             mpesa = MpesaResponseBody.objects.create(body=body)
 
-            # mpesa_body = mpesa.body
+            mpesa_body = mpesa.body
 
-            # if mpesa_body['stkCallback']['ResultCode'] == 0:
-            #     payment = TransactionCallbacks(
-            #         checkout_request_id = mpesa_body['stkCallback']['CheckoutRequestID'],
-            #         merchant_request_id = mpesa_body['stkCallback']['MerchantRequestID'],
-            #         amount = mpesa_body['stkCallback']['CallbackMetadata']['Item'][0]["Value"],
-            #         mpesa_receipt_no = mpesa_body['stkCallback']['CallbackMetadata']['Item'][1]["Value"],
-            #         phone_number = mpesa_body['stkCallback']['CallbackMetadata']['Item'][-1]["Value"],
-            #     )
-            #     payment.save()
+            if mpesa_body['stkCallback']['ResultCode'] == 0:
+                payment = TransactionCallbacks(
+                    checkout_request_id = mpesa_body['stkCallback']['CheckoutRequestID'],
+                    merchant_request_id = mpesa_body['stkCallback']['MerchantRequestID'],
+                    amount = mpesa_body['stkCallback']['CallbackMetadata']['Item'][0]["Value"],
+                    mpesa_receipt_no = mpesa_body['stkCallback']['CallbackMetadata']['Item'][1]["Value"],
+                    phone_number = mpesa_body['stkCallback']['CallbackMetadata']['Item'][-1]["Value"],
+                )
+                payment.save()
                   
-            # else:
-            #     pass
+            else:
+                pass
 
             return Response({"message": "Transaction Successful!!"}, status=status.HTTP_201_CREATED)
         return Response({"failed": "Transaction Failed"}, status=status.HTTP_400_BAD_REQUEST)

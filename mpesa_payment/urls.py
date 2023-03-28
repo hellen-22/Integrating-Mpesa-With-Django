@@ -9,5 +9,7 @@ urlpatterns = [
     path('', views.mpesa_payment, name='mpesa'),
     #path('callback', views.stk_push_callback, name='callback'),
     path('transaction', views.saving_transactions, name='transactions'),
-    path("", include(router.urls))
+    path("", include(router.urls)),
+    path("success", views.successful_redirect, name="success"),
+    path("failed", views.failed_redirect, name='failed'),
 ]

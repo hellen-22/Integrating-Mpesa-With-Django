@@ -1,0 +1,27 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="main-panel">        
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Failed payment request</h4>
+              <p>Something went wrong, Try again after a few minutes</p>
+              <div class="row">
+                <div class="col-md-4">
+                    <a href="{% url 'mpesa' %}" class="btn btn-success">Try again</a>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:../../partials/_footer.html -->
+    
+</div>
+{% endblock content %}
