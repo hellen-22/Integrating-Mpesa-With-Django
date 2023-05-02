@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 
     'mpesa_payment',
+    #'account',
 ]
 
 MIDDLEWARE = [
@@ -144,10 +145,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MPESA_ENVIRONMENT = "sandbox"
-MPESA_CONSUMER_KEY = "SuRXlrlXPHcqCAvqWnqWO4zQ4rQ6ImHT"
-MPESA_CONSUMER_SECRET = "UyIH5o7OWTO4TV5R"
-MPESA_SHORTCODE = "174379"
-MPESA_EXPRESS_SHORTCODE = "174379"
-MPESA_SHORTCODE_TYPE = "paybill"
-MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+AUTH_USER_MODEL = 'account.User'

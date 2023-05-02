@@ -27,6 +27,7 @@ def mpesa_payment(request):
         callback_url = "https://mpesa.ocratsystems.co.ke/callback/"
 
         print(callback_url)
+        print(type(phone_number))
 
         if phone_number[0] == "+":
             phone_number = phone_number[1:]
@@ -78,30 +79,6 @@ class MpesaViewSet(ModelViewSet):
     queryset = MpesaResponseBody.objects.all()
     serializer_class = MpesaResponseBodySerializer
 
-    def create(self, request, *args, **kwargs):
-        body = request.data["Body"]
-        print("***************Callback Data***************")
-        print(body)
-        print("***************Callback Data***************")
+    
 
-        if body:
-            mpesa = MpesaResponseBody.objects.create(body=body)
-
-            mpesa_body = mpesa.body
-
-            if mpesa_body['stkCallback']['ResultCode'] == 0:
-                payment = TransactionCallbacks(
-                    checkout_request_id = mpesa_body['stkCallback']['CheckoutRequestID'],
-                    merchant_request_id = mpesa_body['stkCallback']['MerchantRequestID'],
-                    amount = mpesa_body['stkCallback']['CallbackMetadata']['Item'][0]["Value"],
-                    mpesa_receipt_no = mpesa_body['stkCallback']['CallbackMetadata']['Item'][1]["Value"],
-                    phone_number = mpesa_body['stkCallback']['CallbackMetadata']['Item'][-1]["Value"],
-                )
-                payment.save()
-                  
-            else:
-                pass
-
-            return Response({"message": "Transaction Successful!!"}, status=status.HTTP_201_CREATED)
-        return Response({"failed": "Transaction Failed"}, status=status.HTTP_400_BAD_REQUEST)
-
+    

@@ -136,3 +136,4 @@ staticfiles/
 Include/
 Scripts/
 pyvenv.cfg
+account/
