@@ -69,7 +69,7 @@ class MpesaGateWay:
             logging.error("Error {}".format(e))
             #print("Hellen")
         else:
-            self.access_token_expiration = time.time() + 340000000000000000
+            self.access_token_expiration = time.time() + 3400
 
     def getAccessToken(self):
         try:

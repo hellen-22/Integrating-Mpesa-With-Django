@@ -22,13 +22,11 @@ def mpesa_payment(request):
     if request.method == 'POST':
         phone_number = request.POST['phone_number']
         amount = int(request.POST['amount'])
-        account_reference = 'Ocrat POS Payment'
-        transaction_desc = 'Payment'
-        callback_url = "https://mpesa.ocratsystems.co.ke/callback/"
+        account_reference = ''
+        transaction_desc = ''
+        callback_url = ""
 
-        print(callback_url)
-        print(type(phone_number))
-
+    
         if phone_number[0] == "+":
             phone_number = phone_number[1:]
         if phone_number[0] == "0":
@@ -46,10 +44,10 @@ def mpesa_payment(request):
         response = cl.stk_push(phone_number=phone_number, amount=amount, account_reference=account_reference, transaction_desc=transaction_desc, callback_url=callback_url)
 
 
-        if response.status_code == 200:
-            return redirect("success")
+        # if response.status_code == 200:
+        #     return redirect("success")
         
-        return redirect("failed")
+        return HttpResponse(response)
 
     else:
         return render(request, 'mpesa.html')
@@ -74,11 +72,8 @@ def failed_redirect(request):
     return render(request, "failed.html")
 
 
-
 class MpesaViewSet(ModelViewSet):
     queryset = MpesaResponseBody.objects.all()
     serializer_class = MpesaResponseBodySerializer
-
-    
 
     

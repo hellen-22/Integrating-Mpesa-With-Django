@@ -32,7 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://52cc-41-90-69-251.in.ngrok.io', 'https://sandbox.safaricom.co.ke']
+CSRF_TRUSTED_ORIGINS = ['http://book.ocratsystems.co.ke/callback/']
 
 # Application definition
 
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 
 
     'mpesa_payment',
-    #'account',
+    'account',
 ]
 
 MIDDLEWARE = [
